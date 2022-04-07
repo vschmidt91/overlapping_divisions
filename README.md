@@ -33,11 +33,11 @@ The effect of this is subjective. Making something artificially harder than it a
 
 The code compares the two systems by considering
 
-1. **Relevancy**: The difference between the rank of a bot and its average opponent.
+1. **Relevancy**: The difference between the rank of a bot and its average opponent (avg_rank_diff)
 (this corresponds to goals 1 and 2, and is also at the core of the described side effects)
-2. **Fairness**: The difference of the min/max number of matches per bot
+2. **Fairness**: The difference of the min/max number of matches per bot (max_match_diff)
 (corresponding to goal 4)
-3.  **Variety**: The number of unique opponents a bot faces
+3.  **Variety**: The number of unique opponents a bot faces (avg_opponent_count)
 
 The code in this repository shows that overlapping divisions are better both in terms of relevancy and variety of games, while faring a little worse in terms of fairness.
 
