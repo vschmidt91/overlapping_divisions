@@ -27,7 +27,7 @@ The effect of this is subjective. Making something artificially harder than it a
 
 - keep division system as it is
 - queue matches between adjacent divisions
-- optionally: increase division count
+- optionally: increase division count (double?)
 
 ## Comparison
 
