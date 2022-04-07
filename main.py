@@ -70,7 +70,7 @@ def get_avg_rank_diff(matches):
 
 num_divisions = 3
 
-headers = ['num_bots', 'max_match_diff', 'avg_rank_diff', 'avg_opponent_count']
+headers = ['num_bots', 'max_match_diff', 'avg_rank_diff', 'avg_opponent_count', 'num_matches']
 table_without_overlap = []
 table_with_overlap = []
 table_format = 'github'
@@ -83,6 +83,7 @@ for num_bots in range(50, 70):
     row.append(get_max_match_diff(matches))
     row.append(get_avg_rank_diff(matches))
     row.append(get_avg_opponent_count(num_bots, matches))
+    row.append(len(matches))
     table_without_overlap.append(row)
 
     row = [num_bots]
@@ -91,6 +92,7 @@ for num_bots in range(50, 70):
     row.append(get_max_match_diff(matches))
     row.append(get_avg_rank_diff(matches))
     row.append(get_avg_opponent_count(num_bots, matches))
+    row.append(len(matches))
     table_with_overlap.append(row)
 
 
