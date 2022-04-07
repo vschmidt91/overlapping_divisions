@@ -73,9 +73,9 @@ num_divisions = 3
 headers = ['num_bots', 'max_match_diff', 'avg_rank_diff', 'avg_opponent_count']
 table_without_overlap = []
 table_with_overlap = []
-table_format = 'fancy_grid'
+table_format = 'github'
 
-for num_bots in range(60, 70):
+for num_bots in range(50, 70):
 
     row = [num_bots]
     divisions = create_divisions(num_bots,  num_divisions)
