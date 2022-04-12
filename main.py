@@ -40,6 +40,18 @@ def create_matches_with_overlap(divs):
 
     return matches
 
+
+def create_cyclic_matches(num_bots):
+    k = 10
+    l = list(range(1, num_bots - 1, 2))
+    r = list(range(2, num_bots - 1, 2))
+    cycle = [0] + l + [num_bots-1] + r[::-1]
+    for i, a in enumerate(cycle):
+        for j in range(i - k, i + k + 1):
+            if i == j:
+                continue
+            yield a, cycle[j % len(cycle)]
+
 def create_matches_without_overlap(divs):
     matches = []
     for d in divs:
@@ -49,8 +61,7 @@ def create_matches_without_overlap(divs):
 def create_matches_for_division(div):
     for i, a in enumerate(div):
         for b in div[i+1:]:
-            if a != b:
-                yield a, b
+            yield a, b
 
 """count the number of matches per bot and get the difference between min/max. Lower values = greater fairness in terms of server share"""
 def get_max_match_diff(matches):
@@ -73,18 +84,10 @@ num_divisions = 3
 headers = ['num_bots', 'max_match_diff', 'avg_rank_diff', 'avg_opponent_count', 'num_matches']
 table_without_overlap = []
 table_with_overlap = []
+table_cyclic = []
 table_format = 'github'
 
 for num_bots in range(50, 70):
-
-    row = [num_bots]
-    divisions = create_divisions(num_bots,  num_divisions)
-    matches = create_matches_without_overlap(divisions)
-    row.append(get_max_match_diff(matches))
-    row.append(get_avg_rank_diff(matches))
-    row.append(get_avg_opponent_count(num_bots, matches))
-    row.append(len(matches))
-    table_without_overlap.append(row)
 
     row = [num_bots]
     divisions = create_divisions(num_bots, 2 * num_divisions)
@@ -95,9 +98,30 @@ for num_bots in range(50, 70):
     row.append(len(matches))
     table_with_overlap.append(row)
 
+    row = [num_bots]
+    divisions = create_divisions(num_bots, num_divisions)
+    matches = create_matches_without_overlap(divisions)
+    row.append(get_max_match_diff(matches))
+    row.append(get_avg_rank_diff(matches))
+    row.append(get_avg_opponent_count(num_bots, matches))
+    row.append(len(matches))
+    table_without_overlap.append(row)
+
+    row = [num_bots]
+    matches = list(create_cyclic_matches(num_bots))
+    row.append(get_max_match_diff(matches))
+    row.append(get_avg_rank_diff(matches))
+    row.append(get_avg_opponent_count(num_bots, matches))
+    row.append(len(matches))
+    table_cyclic.append(row)
+
+
+print('overlap, num_divisions=', 2*num_divisions)
+print(tabulate(table_with_overlap, headers=headers, tablefmt=table_format))
+
 
 print('no overlap, num_divisions=', num_divisions)
 print(tabulate(table_without_overlap, headers=headers, tablefmt=table_format))
 
-print('overlap, num_divisions=', 2*num_divisions)
-print(tabulate(table_with_overlap, headers=headers, tablefmt=table_format))
+print('cyclic')
+print(tabulate(table_cyclic, headers=headers, tablefmt=table_format))
